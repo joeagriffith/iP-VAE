@@ -56,6 +56,7 @@ class iPVAE(nn.Module):
             z_prior = torch.poisson(r)
             preds_prior = self.decoder(z_prior)
             mse = (x - preds_prior).pow(2).sum()
+            
             du = -0.5*torch.autograd.grad(mse, z_prior, create_graph=True)[0]
             dr = torch.exp(du)
             lam = r * dr
